@@ -1,6 +1,6 @@
 # AI-Powered Plagiarism Detector
 
-This project is an AI-powered plagiarism detection tool built with a Node.js backend and AI-based processing for real-time plagiarism analysis. It allows users to upload documents and receive accurate plagiarism reports using advanced language models such as ChatGPT/Claude.
+This project is an AI-powered plagiarism detection tool built with a Node.js backend and AI-based processing for real-time plagiarism analysis. It allows users to upload documents and receive accurate plagiarism reports using advanced language models such as Gemini, gemini-1.5-flash (AI models)
 
 ## Features
 
