@@ -1,7 +1,9 @@
 import officeParser from "officeparser";
 
 export async function parseOffice(filPath) {
-    try {
+    try { 
+        console.log("file path", filPath);
+        
         // "data" string returned from promise here is the text parsed from the office file passed in the argument
         const data = await officeParser.parseOfficeAsync(filPath);
         return data;

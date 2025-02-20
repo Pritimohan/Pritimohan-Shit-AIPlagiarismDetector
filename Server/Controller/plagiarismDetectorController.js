@@ -5,15 +5,14 @@ import { parseOffice } from '../utils/officeParser.js'
 import fs from 'fs';
 
 export async function detectPlagiarism(req, res) {
+
+    console.log("req.file", req.file);
+    
     try {
         // Check if the file is uploaded
-        if (!req.file) {
-            return res.status(400).json({ error: "Please upload a file (.PDF or .docx)" });
-        }
+        if (!req.file) return res.status(400).json({ error: "Please upload a file (.PDF or .docx)" });
         const text = await parseOffice(req.file?.path); // Parse the office file
-        if (!text) {
-            return res.status(400).json({ error: "Error parsing the file" });
-        }
+        if (!text) return res.status(400).json({ error: "Error parsing the file" });
         // Start a chat session
         const chatSession = model.startChat({
             generationConfig,
@@ -36,10 +35,8 @@ Ensure all output is concise, highly accurate, and formatted in JSON."
 
      `);
         const josonResult = JSON.parse(result.response.text()); // Parse the JSON response
-
-        if (!josonResult.data) {
-            return res.status(400).json({ error: "Error parse JSON response" });
-        }
+        if (!josonResult.data) return res.status(400).json({ error: "Error parse JSON response" });
+    
 
         await fs.unlink(req.file?.path, (err) => {
             if (err) {
@@ -51,7 +48,6 @@ Ensure all output is concise, highly accurate, and formatted in JSON."
 
     } catch (error) {
         console.log("serror from server", error);
-        return res.status(500).json({ error: "internal server error from plagiarism detector" });
         return res.status(500).json({ error: "internal server error from plagiarism detector" });
     }
 }
