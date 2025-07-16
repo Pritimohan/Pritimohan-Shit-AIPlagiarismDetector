@@ -10,7 +10,12 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors(
+  {
+    origin: 'https://pritimohan-shit-ai-plagiarism-detector.vercel.app/check', // Allow all origins for development purposes
+    methods: ['GET', 'POST'],
+  }
+));
 
 
 // Routes

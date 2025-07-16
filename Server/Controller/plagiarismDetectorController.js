@@ -6,8 +6,6 @@ import fs from 'fs';
 
 export async function detectPlagiarism(req, res) {
 
-    console.log("req.file", req.file);
-    
     try {
         // Check if the file is uploaded
         if (!req.file) return res.status(400).json({ error: "Please upload a file (.PDF or .docx)" });
@@ -23,28 +21,19 @@ export async function detectPlagiarism(req, res) {
         });
 
         // Send a message to the chat session
-        const result = await chatSession.sendMessage(`"Analyze the provided text: '${text}' for potential plagiarism and deliver a highly accurate, concise report. The report must include:
-1. Percentage of plagiarized content (must).
-2. Sources of plagiarized material with precise references.
-3. Short summaries of both unique and matched content.
-4. Snippets of matched content with their corresponding sources.
-5. Clear recommendations for improving originality.
-6. Effective methods to avoid future plagiarism incidents.
-
-Ensure all output is concise, highly accurate, and formatted in JSON."
-
-     `);
-        const josonResult = JSON.parse(result.response.text()); // Parse the JSON response
-        if (!josonResult.data) return res.status(400).json({ error: "Error parse JSON response" });
-    
-
+        const result = await chatSession.sendMessage(text);
+        // console.log("result from server", result.response.text());
+        
+        const jsonResult = JSON.parse(result.response.text()); // Parse the response to JSON
+        if (!jsonResult.data) return res.status(400).json({ error: "Error parse JSON response" });
+        
         await fs.unlink(req.file?.path, (err) => {
             if (err) {
                 throw new Error(err);
             }
         }) // Delete the uploaded file
 
-        return res.status(200).json({ result: josonResult.data || '' }); // Send the parsed JSON response
+        return res.status(200).json({ result:jsonResult.data || '' }); // Send the parsed JSON response
 
     } catch (error) {
         console.log("serror from server", error);
