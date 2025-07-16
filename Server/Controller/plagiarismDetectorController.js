@@ -22,9 +22,9 @@ export async function detectPlagiarism(req, res) {
 
         // Send a message to the chat session
         const result = await chatSession.sendMessage(text);
-        // console.log("result from server", result.response.text());
+
         
-        const jsonResult = JSON.parse(result.response.text()); // Parse the response to JSON
+        const jsonResult = JSON.parse(result?.response?.text()); // Parse the response to JSON
         if (!jsonResult.data) return res.status(400).json({ error: "Error parse JSON response" });
         
         await fs.unlink(req.file?.path, (err) => {
@@ -36,7 +36,7 @@ export async function detectPlagiarism(req, res) {
         return res.status(200).json({ result:jsonResult.data || '' }); // Send the parsed JSON response
 
     } catch (error) {
-        console.log("serror from server", error);
+        console.log("error from server", error);
         return res.status(500).json({ error: "internal server error from plagiarism detector" });
     }
 }

@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(
   {
-    origin: 'https://pritimohan-shit-ai-plagiarism-detector.vercel.app/check', // Allow all origins for development purposes
+    origin: 'https://pritimohan-shit-ai-plagiarism-detector.vercel.app', // Adjust this to your frontend URL
     methods: ['GET', 'POST'],
   }
 ));
